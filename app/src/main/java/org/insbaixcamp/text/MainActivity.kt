@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -38,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.util.Locale
 import org.insbaixcamp.text.ui.theme.TextTheme
 
 class MainActivity : ComponentActivity() {
@@ -62,10 +66,10 @@ fun BMIScreen() {
 
     val bmiCategory = when {
         bmi == 0f -> ""
-        bmi < 18.5f -> "Baqi m3dd (Underweight)"
-        bmi in 18.5f..24.9f -> "Wazn mithali (Normal)"
-        bmi in 25.0f..29.9f -> "Ziyada f l'wazn (Overweight)"
-        else -> "Smena (Obese)"
+        bmi < 18.5f -> "Pes insuficient (Underweight)"
+        bmi in 18.5f..24.9f -> "Pes normal (Normal)"
+        bmi in 25.0f..29.9f -> "Sobrepes (Overweight)"
+        else -> "Obesitat (Obese)"
     }
 
     Scaffold(
@@ -73,7 +77,7 @@ fun BMIScreen() {
             TopAppBar(
                 title = {
                     Text(
-                        "BMI Calculator Pro",
+                        "Calculadora de IMC Pro",
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     )
@@ -89,6 +93,7 @@ fun BMIScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
                 .padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -96,7 +101,7 @@ fun BMIScreen() {
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Enter your name") },
+                label = { Text("Introdueix el teu nom") },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 singleLine = true
@@ -115,7 +120,7 @@ fun BMIScreen() {
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Text(
-                        text = "Pes (Weight)",
+                        text = "Pes",
                         fontSize = 15.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.secondary
@@ -166,7 +171,7 @@ fun BMIScreen() {
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Text(
-                        text = "Alcada (Height)",
+                        text = "Alçada",
                         fontSize = 15.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.secondary
@@ -203,7 +208,7 @@ fun BMIScreen() {
                 elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp)
             ) {
                 Text(
-                    text = "Calcular BMI",
+                    text = "Calcular IMC",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -211,7 +216,9 @@ fun BMIScreen() {
 
             if (bmi > 0f) {
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .animateContentSize(),
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer
                     ),
@@ -225,12 +232,12 @@ fun BMIScreen() {
                         verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Text(
-                            text = if (name.isNotBlank()) "Malk ya $name, Resultat dyalk:" else "El teu BMI es:",
+                            text = if (name.isNotBlank()) "Hola $name, el teu resultat és:" else "El teu IMC és:",
                             fontSize = 15.sp,
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                         Text(
-                            text = String.format("%.1f", bmi),
+                            text = String.format(Locale.US, "%.1f", bmi),
                             fontSize = 40.sp,
                             fontWeight = FontWeight.ExtraBold,
                             color = MaterialTheme.colorScheme.primary
@@ -246,6 +253,8 @@ fun BMIScreen() {
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
