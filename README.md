@@ -30,3 +30,5 @@ IMC = pes (kg) / alçada (m)²
 1. Clona el repositori.
 2. Obre'l amb Android Studio i sincronitza Gradle.
 3. Prem **Run ▶** amb un emulador o dispositiu.
+
+<img width="945" height="2048" alt="WhatsApp Image 2026-10-22 at 5 10 00 PM" src="https://github.com/user-attachments/assets/72a6fc39-7724-448b-b33f-7b9dc7ba7878" />
